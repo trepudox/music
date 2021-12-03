@@ -1,17 +1,27 @@
 package com.trepudox.music.entrypoint.controller;
 
+import com.trepudox.music.core.mapper.CreateMusicRequestToMusicModelMapper;
+import com.trepudox.music.dataprovider.model.MusicModel;
+import com.trepudox.music.dataprovider.repository.MusicRepository;
+import com.trepudox.music.entrypoint.request.CreateMusicRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/music")
 public class MusicController {
 
-    @GetMapping("/hello")
-    public ResponseEntity<String> helloMusic() {
-        return ResponseEntity.ok("Hello World!");
+    private final MusicRepository musicRepository;
+
+    @PostMapping
+    public ResponseEntity<?> createMusic(CreateMusicRequest createMusicRequest) {
+        MusicModel musicModel = CreateMusicRequestToMusicModelMapper.map(createMusicRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(musicRepository.save(musicModel));
     }
 
 }
