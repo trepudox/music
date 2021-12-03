@@ -1,8 +1,5 @@
 package com.trepudox.music.dataprovider.model;
 
-import com.trepudox.music.entity.Album;
-import com.trepudox.music.entity.Artist;
-import com.trepudox.music.entity.Genre;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +18,7 @@ public class MusicModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne(targetEntity = GenreModel.class, cascade = CascadeType.ALL, optional = false)
@@ -32,6 +30,7 @@ public class MusicModel {
     @ManyToOne(targetEntity = AlbumModel.class, cascade = CascadeType.ALL)
     private AlbumModel album;
 
+    @Column(nullable = false)
     private LocalDate releaseDate;
 
 }

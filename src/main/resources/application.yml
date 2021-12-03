@@ -2,6 +2,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
+      format_sql: true
       ddl-auto: update
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_music?createDatabaseIfNotExist=true&serverTimezone=UTC

@@ -1,6 +1,5 @@
 package com.trepudox.music.dataprovider.model;
 
-import com.trepudox.music.entity.Album;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +18,7 @@ public class ArtistModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     @OneToMany(targetEntity = AlbumModel.class, cascade = CascadeType.ALL, mappedBy = "artist")

@@ -19,6 +19,7 @@ public class AlbumModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne(targetEntity = ArtistModel.class, cascade = CascadeType.ALL, optional = false)
@@ -27,6 +28,7 @@ public class AlbumModel {
     @OneToMany(targetEntity = MusicModel.class, cascade = CascadeType.ALL, mappedBy = "album")
     private List<MusicModel> tracks;
 
+    @Column(nullable = false)
     private LocalDate releaseDate;
 
 }

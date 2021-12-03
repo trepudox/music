@@ -18,7 +18,7 @@ public class MusicController {
 
     private final MusicRepository musicRepository;
 
-    @PostMapping
+    @PostMapping(value = "/create")
     public ResponseEntity<?> createMusic(CreateMusicRequest createMusicRequest) {
         MusicModel musicModel = CreateMusicRequestToMusicModelMapper.map(createMusicRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(musicRepository.save(musicModel));
