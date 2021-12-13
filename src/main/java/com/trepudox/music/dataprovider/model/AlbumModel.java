@@ -22,7 +22,7 @@ public class AlbumModel {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(targetEntity = ArtistModel.class, cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(targetEntity = ArtistModel.class, optional = false)
     private ArtistModel artist;
 
     @OneToMany(targetEntity = MusicModel.class, cascade = CascadeType.ALL, mappedBy = "album")

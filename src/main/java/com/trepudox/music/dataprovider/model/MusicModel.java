@@ -21,13 +21,13 @@ public class MusicModel {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(targetEntity = GenreModel.class, cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(targetEntity = GenreModel.class, optional = false)
     private GenreModel genre;
 
-    @ManyToOne(targetEntity = ArtistModel.class, cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(targetEntity = ArtistModel.class, optional = false)
     private ArtistModel artist;
 
-    @ManyToOne(targetEntity = AlbumModel.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = AlbumModel.class)
     private AlbumModel album;
 
     @Column(nullable = false)
