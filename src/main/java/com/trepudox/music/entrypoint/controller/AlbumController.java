@@ -24,9 +24,9 @@ public class AlbumController {
     @PostMapping(value = "/create")
     public ResponseEntity<AlbumResponse> createAlbum(@RequestBody CreateAlbumRequest createAlbumRequest) {
         AlbumModel albumModel = CreateAlbumRequestToAlbumModelMapper.map(createAlbumRequest);
-        AlbumResponse response = AlbumModelToAlbumResponseMapper.map(albumRepository.save(albumModel));
+        AlbumResponse albumResponse = AlbumModelToAlbumResponseMapper.map(albumRepository.save(albumModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(albumResponse);
     }
 
 }

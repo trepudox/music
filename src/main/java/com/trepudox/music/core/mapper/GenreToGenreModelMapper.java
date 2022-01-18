@@ -2,7 +2,6 @@ package com.trepudox.music.core.mapper;
 
 import com.trepudox.music.dataprovider.model.GenreModel;
 import com.trepudox.music.entity.Genre;
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

@@ -14,7 +14,8 @@ public class ArtistModelToArtistResponseMapper {
         return ArtistResponse.builder()
                 .id(artistModel.getId())
                 .name(artistModel.getName())
-                .albums(artistModel.getAlbums().stream()
+                .albums(artistModel.getAlbums() == null ? null :
+                        artistModel.getAlbums().stream()
                         .map(AlbumModelToAlbumResponseMapper::map)
                         .collect(Collectors.toList()))
                 .build();

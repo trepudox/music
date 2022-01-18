@@ -15,7 +15,8 @@ public class GenreModelToGenreResponseMapper {
                 .id(genreModel.getId())
                 .name(genreModel.getName())
                 .description(genreModel.getDescription())
-                .tracks(genreModel.getTracks().stream()
+                .tracks(genreModel.getTracks() == null ? null :
+                        genreModel.getTracks().stream()
                         .map(MusicModelToMusicResponseMapper::map)
                         .collect(Collectors.toList()))
                 .build();

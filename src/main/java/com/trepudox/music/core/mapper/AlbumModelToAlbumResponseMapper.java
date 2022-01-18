@@ -15,7 +15,8 @@ public class AlbumModelToAlbumResponseMapper {
                 .id(albumModel.getId())
                 .name(albumModel.getName())
                 .artist(ArtistModelToArtistResponseMapper.map(albumModel.getArtist()))
-                .tracks(albumModel.getTracks().stream()
+                .tracks(albumModel.getTracks() == null ? null :
+                        albumModel.getTracks().stream()
                         .map(MusicModelToMusicResponseMapper::map)
                         .collect(Collectors.toList()))
                 .releaseDate(albumModel.getReleaseDate())

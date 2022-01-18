@@ -11,6 +11,7 @@ public class CreateArtistRequestToArtistModelMapper {
 
     public static ArtistModel map(CreateArtistRequest createArtistRequest) {
         return ArtistModel.builder()
+                .id(null)
                 .name(createArtistRequest.getName())
                 .build();
     }
