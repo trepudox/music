@@ -1,7 +1,6 @@
 package com.trepudox.music.entrypoint.controller;
 
-import com.trepudox.music.core.mapper.AlbumModelToAlbumResponseMapper;
-import com.trepudox.music.core.mapper.CreateAlbumRequestToAlbumModelMapper;
+import com.trepudox.music.core.mapper.AlbumMapper;
 import com.trepudox.music.dataprovider.model.AlbumModel;
 import com.trepudox.music.dataprovider.repository.AlbumRepository;
 import com.trepudox.music.entrypoint.request.CreateAlbumRequest;
@@ -23,8 +22,8 @@ public class AlbumController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<AlbumResponse> createAlbum(@RequestBody CreateAlbumRequest createAlbumRequest) {
-        AlbumModel albumModel = CreateAlbumRequestToAlbumModelMapper.map(createAlbumRequest);
-        AlbumResponse albumResponse = AlbumModelToAlbumResponseMapper.map(albumRepository.save(albumModel));
+        AlbumModel albumModel = AlbumMapper.INSTANCE.createAlbumRequestToAlbumModel(createAlbumRequest);
+        AlbumResponse albumResponse = AlbumMapper.INSTANCE.albumModelToAlbumResponse(albumRepository.save(albumModel));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(albumResponse);
     }

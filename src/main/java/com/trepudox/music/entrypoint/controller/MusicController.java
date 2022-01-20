@@ -1,7 +1,6 @@
 package com.trepudox.music.entrypoint.controller;
 
-import com.trepudox.music.core.mapper.CreateMusicRequestToMusicModelMapper;
-import com.trepudox.music.core.mapper.MusicModelToMusicResponseMapper;
+import com.trepudox.music.core.mapper.MusicMapper;
 import com.trepudox.music.dataprovider.model.MusicModel;
 import com.trepudox.music.dataprovider.repository.MusicRepository;
 import com.trepudox.music.entrypoint.request.CreateMusicRequest;
@@ -23,8 +22,8 @@ public class MusicController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<MusicResponse> createMusic(@RequestBody CreateMusicRequest createMusicRequest) {
-        MusicModel musicModel = CreateMusicRequestToMusicModelMapper.map(createMusicRequest);
-        MusicResponse response = MusicModelToMusicResponseMapper.map(musicRepository.save(musicModel));
+        MusicModel musicModel = MusicMapper.INSTANCE.createMusicRequestToMusicModel(createMusicRequest);
+        MusicResponse response = MusicMapper.INSTANCE.musicModelToMusicResponse(musicRepository.save(musicModel));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

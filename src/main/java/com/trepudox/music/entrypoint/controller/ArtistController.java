@@ -3,7 +3,6 @@ package com.trepudox.music.entrypoint.controller;
 import com.trepudox.music.core.mapper.ArtistMapper;
 import com.trepudox.music.dataprovider.model.ArtistModel;
 import com.trepudox.music.dataprovider.repository.ArtistRepository;
-import com.trepudox.music.entity.Artist;
 import com.trepudox.music.entrypoint.request.CreateArtistRequest;
 import com.trepudox.music.entrypoint.response.ArtistResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +22,7 @@ public class ArtistController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<ArtistResponse> createArtist(@RequestBody CreateArtistRequest createArtistRequest) {
-        Artist artist = ArtistMapper.INSTANCE.createArtistRequestToArtist(createArtistRequest);
-        ArtistModel artistModel = ArtistMapper.INSTANCE.artistToArtistModel(artist);
+        ArtistModel artistModel = ArtistMapper.INSTANCE.createArtistToArtistModel(createArtistRequest);
         ArtistResponse response = ArtistMapper.INSTANCE.artistModelToArtistResponse(artistRepository.save(artistModel));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
