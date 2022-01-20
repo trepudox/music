@@ -1,8 +1,12 @@
 package com.trepudox.music.entrypoint.request;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateGenreRequest {
 
     private String name;

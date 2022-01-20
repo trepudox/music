@@ -1,9 +1,9 @@
 package com.trepudox.music.entrypoint.controller;
 
-import com.trepudox.music.core.mapper.CreateGenreRequestToGenreModelMapper;
-import com.trepudox.music.core.mapper.GenreModelToGenreResponseMapper;
+import com.trepudox.music.core.mapper.GenreMapper;
 import com.trepudox.music.dataprovider.model.GenreModel;
 import com.trepudox.music.dataprovider.repository.GenreRepository;
+import com.trepudox.music.entity.Genre;
 import com.trepudox.music.entrypoint.request.CreateGenreRequest;
 import com.trepudox.music.entrypoint.response.GenreResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +23,9 @@ public class GenreController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<GenreResponse> createGenre(@RequestBody CreateGenreRequest createGenreRequest) {
-        GenreModel genreModel = CreateGenreRequestToGenreModelMapper.map(createGenreRequest);
-        GenreResponse response = GenreModelToGenreResponseMapper.map(genreRepository.save(genreModel));
+        Genre genre = GenreMapper.INSTANCE.createGenreRequestToGenre(createGenreRequest);
+        GenreModel genreModel = GenreMapper.INSTANCE.genreToGenreModel(genre);
+        GenreResponse response = GenreMapper.INSTANCE.genreModelToGenreResponse(genreRepository.save(genreModel));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
