@@ -1,8 +1,12 @@
 package com.trepudox.music.dataprovider.model;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -11,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "genre")
 public class GenreModel {
 
@@ -26,5 +31,11 @@ public class GenreModel {
 
     @OneToMany(mappedBy = "genre", targetEntity = MusicModel.class, cascade = CascadeType.ALL)
     private List<MusicModel> tracks;
+
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
+
+    @CreatedDate
+    private LocalDateTime createdDate;
 
 }
