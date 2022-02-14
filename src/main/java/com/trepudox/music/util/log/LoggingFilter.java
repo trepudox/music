@@ -26,23 +26,25 @@ public class LoggingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        ContentCachingRequestWrapper request2 = new ContentCachingRequestWrapper(request);
-        ContentCachingResponseWrapper response2 = new ContentCachingResponseWrapper(response);
+        ContentCachingRequestWrapper cachedRequest = new ContentCachingRequestWrapper(request);
+        ContentCachingResponseWrapper cachedResponse = new ContentCachingResponseWrapper(response);
 
-        filterChain.doFilter(request2, response2);
+        filterChain.doFilter(cachedRequest, cachedResponse);
 
-        String jsonLog = gson.toJson(buildLogPayload(request2, response2));
+        String jsonLog = gson.toJson(buildLogPayload(cachedRequest, cachedResponse));
         log.info(jsonLog);
+
+        cachedResponse.copyBodyToResponse();
     }
 
-    private LogPayload buildLogPayload(ContentCachingRequestWrapper request, ContentCachingResponseWrapper response) {
+    private LogPayload buildLogPayload(ContentCachingRequestWrapper cachedRequest, ContentCachingResponseWrapper cachedResponse) {
         return LogPayload.builder()
                 .timestamp(generateTimestamp())
-                .method(request.getMethod())
-                .path(request.getRequestURI())
-                .status(HttpStatus.valueOf(response.getStatus()).toString())
-                .requestBody(formatJson(request.getContentAsByteArray()))
-                .responseBody(formatJson(response.getContentAsByteArray()))
+                .method(cachedRequest.getMethod())
+                .path(cachedRequest.getRequestURI())
+                .status(HttpStatus.valueOf(cachedResponse.getStatus()).toString())
+                .requestBody(formatJson(cachedRequest.getContentAsByteArray()))
+                .responseBody(formatJson(cachedResponse.getContentAsByteArray()))
                 .build();
     }
 
