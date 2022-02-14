@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/music")
+@RequestMapping("/music")
 public class MusicController {
 
     private final MusicRepository musicRepository;
 
-    @PostMapping(value = "/create")
+    @PostMapping("/create")
     public ResponseEntity<MusicResponse> createMusic(@RequestBody CreateMusicRequest createMusicRequest) {
         MusicModel musicModel = MusicMapper.INSTANCE.createMusicRequestToMusicModel(createMusicRequest);
         MusicResponse response = MusicMapper.INSTANCE.musicModelToMusicResponse(musicRepository.save(musicModel));

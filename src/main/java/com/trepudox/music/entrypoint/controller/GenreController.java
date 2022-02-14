@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/genre")
+@RequestMapping("/genre")
 public class GenreController {
 
     private final GenreRepository genreRepository;
 
-    @PostMapping(value = "/create")
+    @PostMapping("/create")
     public ResponseEntity<GenreResponse> createGenre(@RequestBody CreateGenreRequest createGenreRequest) {
         GenreModel genreModel = GenreMapper.INSTANCE.createGenreRequestToGenreModel(createGenreRequest);
         GenreResponse response = GenreMapper.INSTANCE.genreModelToGenreResponse(genreRepository.save(genreModel));
