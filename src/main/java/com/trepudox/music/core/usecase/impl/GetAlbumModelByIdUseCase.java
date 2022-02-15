@@ -1,8 +1,10 @@
 package com.trepudox.music.core.usecase.impl;
 
+import com.trepudox.music.core.exception.NotFoundException;
 import com.trepudox.music.core.usecase.IGetAlbumModelByIdUseCase;
 import com.trepudox.music.dataprovider.model.AlbumModel;
 import com.trepudox.music.dataprovider.repository.AlbumRepository;
+import com.trepudox.music.entity.enums.EntityEnums;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +16,8 @@ public class GetAlbumModelByIdUseCase implements IGetAlbumModelByIdUseCase {
 
     @Override
     public AlbumModel get(Long id) {
-        return albumRepository.getById(id);
+        return albumRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException(EntityEnums.ALBUM, id));
     }
 
 }
