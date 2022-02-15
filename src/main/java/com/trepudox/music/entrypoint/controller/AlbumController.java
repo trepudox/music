@@ -34,9 +34,9 @@ public class AlbumController {
     @GetMapping("/id/{id}")
     public ResponseEntity<GlobalResponse<AlbumResponse>> getAlbumById(@PathVariable Long id) {
         AlbumModel albumModel = getAlbumModelByIdUseCase.get(id);
-        AlbumResponse response = AlbumMapper.INSTANCE.albumModelToAlbumResponse(albumModel);
+        AlbumResponse albumResponse = AlbumMapper.INSTANCE.albumModelToAlbumResponse(albumModel);
 
-        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(response));
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(albumResponse));
     }
 
 }

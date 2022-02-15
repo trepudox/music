@@ -26,9 +26,9 @@ public class GenreController {
     @PostMapping("/create")
     public ResponseEntity<GlobalResponse<GenreResponse>> createGenre(@RequestBody @Valid CreateGenreRequest createGenreRequest) {
         GenreModel genreModel = GenreMapper.INSTANCE.createGenreRequestToGenreModel(createGenreRequest);
-        GenreResponse response = GenreMapper.INSTANCE.genreModelToGenreResponse(genreRepository.save(genreModel));
+        GenreResponse genreResponse = GenreMapper.INSTANCE.genreModelToGenreResponse(genreRepository.save(genreModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(response));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(genreResponse));
     }
 
     @GetMapping("/id/{id}")

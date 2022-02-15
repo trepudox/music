@@ -26,17 +26,17 @@ public class ArtistController {
     @PostMapping("/create")
     public ResponseEntity<GlobalResponse<ArtistResponse>> createArtist(@RequestBody @Valid CreateArtistRequest createArtistRequest) {
         ArtistModel artistModel = ArtistMapper.INSTANCE.createArtistToArtistModel(createArtistRequest);
-        ArtistResponse response = ArtistMapper.INSTANCE.artistModelToArtistResponse(artistRepository.save(artistModel));
+        ArtistResponse artistResponse = ArtistMapper.INSTANCE.artistModelToArtistResponse(artistRepository.save(artistModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(response));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(artistResponse));
     }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<GlobalResponse<ArtistResponse>> getArtistById(@PathVariable Long id) {
         ArtistModel artistModel = getArtistModelByIdUseCase.get(id);
-        ArtistResponse response = ArtistMapper.INSTANCE.artistModelToArtistResponse(artistModel);
+        ArtistResponse artistResponse = ArtistMapper.INSTANCE.artistModelToArtistResponse(artistModel);
 
-        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(response));
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(artistResponse));
     }
 
 }

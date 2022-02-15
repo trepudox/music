@@ -26,17 +26,17 @@ public class MusicController {
     @PostMapping("/create")
     public ResponseEntity<GlobalResponse<MusicResponse>> createMusic(@RequestBody @Valid CreateMusicRequest createMusicRequest) {
         MusicModel musicModel = MusicMapper.INSTANCE.createMusicRequestToMusicModel(createMusicRequest);
-        MusicResponse response = MusicMapper.INSTANCE.musicModelToMusicResponse(musicRepository.save(musicModel));
+        MusicResponse musicResponse = MusicMapper.INSTANCE.musicModelToMusicResponse(musicRepository.save(musicModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(response));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(musicResponse));
     }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<GlobalResponse<MusicResponse>> getMusicById(@PathVariable Long id) {
         MusicModel musicModel = getMusicModelByIdUseCase.get(id);
-        MusicResponse response = MusicMapper.INSTANCE.musicModelToMusicResponse(musicModel);
+        MusicResponse musicResponse = MusicMapper.INSTANCE.musicModelToMusicResponse(musicModel);
 
-        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(response));
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(musicResponse));
     }
 
 }
