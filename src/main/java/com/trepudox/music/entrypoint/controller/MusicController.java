@@ -1,6 +1,7 @@
 package com.trepudox.music.entrypoint.controller;
 
 import com.trepudox.music.core.mapper.MusicMapper;
+import com.trepudox.music.core.usecase.IGetMusicModelByIdUseCase;
 import com.trepudox.music.dataprovider.model.MusicModel;
 import com.trepudox.music.dataprovider.repository.MusicRepository;
 import com.trepudox.music.entrypoint.request.CreateMusicRequest;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 public class MusicController {
 
     private final MusicRepository musicRepository;
+    private final IGetMusicModelByIdUseCase getMusicModelByIdUseCase;
 
     @PostMapping("/create")
     public ResponseEntity<GlobalResponse<MusicResponse>> createMusic(@RequestBody @Valid CreateMusicRequest createMusicRequest) {
@@ -27,6 +29,14 @@ public class MusicController {
         MusicResponse response = MusicMapper.INSTANCE.musicModelToMusicResponse(musicRepository.save(musicModel));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(response));
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<GlobalResponse<MusicResponse>> getMusicById(@PathVariable Long id) {
+        MusicModel musicModel = getMusicModelByIdUseCase.get(id);
+        MusicResponse response = MusicMapper.INSTANCE.musicModelToMusicResponse(musicModel);
+
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(response));
     }
 
 }

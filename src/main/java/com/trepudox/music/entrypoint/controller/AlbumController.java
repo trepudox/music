@@ -1,6 +1,7 @@
 package com.trepudox.music.entrypoint.controller;
 
 import com.trepudox.music.core.mapper.AlbumMapper;
+import com.trepudox.music.core.usecase.IGetAlbumModelByIdUseCase;
 import com.trepudox.music.dataprovider.model.AlbumModel;
 import com.trepudox.music.dataprovider.repository.AlbumRepository;
 import com.trepudox.music.entrypoint.request.CreateAlbumRequest;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 public class AlbumController {
 
     private final AlbumRepository albumRepository;
+    private final IGetAlbumModelByIdUseCase getAlbumModelByIdUseCase;
 
     @PostMapping("/create")
     public ResponseEntity<GlobalResponse<AlbumResponse>> createAlbum(@RequestBody @Valid CreateAlbumRequest createAlbumRequest) {
@@ -27,6 +29,14 @@ public class AlbumController {
         AlbumResponse albumResponse = AlbumMapper.INSTANCE.albumModelToAlbumResponse(albumRepository.save(albumModel));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(albumResponse));
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<GlobalResponse<AlbumResponse>> getAlbumById(@PathVariable Long id) {
+        AlbumModel albumModel = getAlbumModelByIdUseCase.get(id);
+        AlbumResponse response = AlbumMapper.INSTANCE.albumModelToAlbumResponse(albumModel);
+
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(response));
     }
 
 }
