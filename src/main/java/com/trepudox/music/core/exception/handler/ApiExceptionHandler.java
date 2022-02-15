@@ -55,7 +55,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<GlobalResponse<List<ErrorResponse>>> handleDataIntegrityViolationException(DataIntegrityViolationException ex,
+    protected ResponseEntity<GlobalResponse<List<ErrorResponse>>> handleDataIntegrityViolationException(DataIntegrityViolationException ex,
                                                                                                      HttpServletRequest request) {
         ErrorResponse error = ErrorResponse.builder()
                 .title("Internal server error")
