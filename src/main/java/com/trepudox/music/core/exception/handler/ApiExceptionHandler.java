@@ -3,7 +3,7 @@ package com.trepudox.music.core.exception.handler;
 import com.trepudox.music.core.exception.EnumMappingException;
 import com.trepudox.music.core.exception.NotFoundException;
 import com.trepudox.music.entrypoint.response.ErrorResponse;
-import com.trepudox.music.entrypoint.response.GlobalResponse;
+import com.trepudox.music.entrypoint.response.global.GlobalResponse;
 import com.trepudox.music.util.factory.GlobalResponseFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
