@@ -17,8 +17,7 @@ public enum EntityEnums {
 
     private String label;
 
-
-    public EntityEnums of(String entityName) {
+    public static EntityEnums of(String entityName) {
         try {
             return EntityEnums.valueOf(entityName.toUpperCase());
         } catch(Exception ex) {
