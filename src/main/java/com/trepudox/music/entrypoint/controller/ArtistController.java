@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -24,19 +25,22 @@ public class ArtistController {
     private final IGetArtistModelByIdUseCase getArtistModelByIdUseCase;
 
     @PostMapping("/create")
-    public ResponseEntity<GlobalResponse<ArtistResponse>> createArtist(@RequestBody @Valid CreateArtistRequest createArtistRequest) {
+    public ResponseEntity<GlobalResponse<ArtistResponse>> createArtist(@RequestBody @Valid CreateArtistRequest createArtistRequest,
+                                                                       HttpServletRequest request) {
+
         ArtistModel artistModel = ArtistMapper.INSTANCE.createArtistToArtistModel(createArtistRequest);
         ArtistResponse artistResponse = ArtistMapper.INSTANCE.artistModelToArtistResponse(artistRepository.save(artistModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(artistResponse));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(artistResponse, request.getRequestURI()));
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<GlobalResponse<ArtistResponse>> getArtistById(@PathVariable Long id) {
+    public ResponseEntity<GlobalResponse<ArtistResponse>> getArtistById(@PathVariable Long id,
+                                                                        HttpServletRequest request) {
         ArtistModel artistModel = getArtistModelByIdUseCase.get(id);
         ArtistResponse artistResponse = ArtistMapper.INSTANCE.artistModelToArtistResponse(artistModel);
 
-        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(artistResponse));
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(artistResponse, request.getRequestURI()));
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -24,19 +25,22 @@ public class AlbumController {
     private final IGetAlbumModelByIdUseCase getAlbumModelByIdUseCase;
 
     @PostMapping("/create")
-    public ResponseEntity<GlobalResponse<AlbumResponse>> createAlbum(@RequestBody @Valid CreateAlbumRequest createAlbumRequest) {
+    public ResponseEntity<GlobalResponse<AlbumResponse>> createAlbum(@RequestBody @Valid CreateAlbumRequest createAlbumRequest,
+                                                                     HttpServletRequest request) {
+
         AlbumModel albumModel = AlbumMapper.INSTANCE.createAlbumRequestToAlbumModel(createAlbumRequest);
         AlbumResponse albumResponse = AlbumMapper.INSTANCE.albumModelToAlbumResponse(albumRepository.save(albumModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(albumResponse));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(albumResponse, request.getRequestURI()));
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<GlobalResponse<AlbumResponse>> getAlbumById(@PathVariable Long id) {
+    public ResponseEntity<GlobalResponse<AlbumResponse>> getAlbumById(@PathVariable Long id,
+                                                                      HttpServletRequest request) {
         AlbumModel albumModel = getAlbumModelByIdUseCase.get(id);
         AlbumResponse albumResponse = AlbumMapper.INSTANCE.albumModelToAlbumResponse(albumModel);
 
-        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(albumResponse));
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(albumResponse, request.getRequestURI()));
     }
 
 }

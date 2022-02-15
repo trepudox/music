@@ -12,9 +12,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,23 +24,25 @@ import java.util.List;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<GlobalResponse<List<ErrorResponse>>> handleNotFoundException(NotFoundException ex) {
+    public ResponseEntity<GlobalResponse<List<ErrorResponse>>> handleNotFoundException(NotFoundException ex, HttpServletRequest request) {
         ErrorResponse error = ErrorResponse.builder()
                 .title("Entity not found")
                 .detail(ex.getMessage())
                 .build();
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GlobalResponseFactory.build(List.of(error)));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(GlobalResponseFactory.build(List.of(error), request.getRequestURI()));
     }
 
     @ExceptionHandler(EnumMappingException.class)
-    public ResponseEntity<GlobalResponse<List<ErrorResponse>>> handleEnumMappingException(EnumMappingException ex) {
+    public ResponseEntity<GlobalResponse<List<ErrorResponse>>> handleEnumMappingException(EnumMappingException ex, HttpServletRequest request) {
         ErrorResponse error = ErrorResponse.builder()
                 .title("Enum mapping error")
                 .detail(ex.getMessage())
                 .build();
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalResponseFactory.build(List.of(error)));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(GlobalResponseFactory.build(List.of(error), request.getRequestURI()));
     }
 
     @Override
@@ -60,7 +64,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                     .build());
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GlobalResponseFactory.build(errorList));
+        ServletWebRequest servletWebRequest = (ServletWebRequest) request;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(GlobalResponseFactory.build(errorList, servletWebRequest.getRequest().getRequestURI()));
     }
 
 

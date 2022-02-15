@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -24,19 +25,22 @@ public class MusicController {
     private final IGetMusicModelByIdUseCase getMusicModelByIdUseCase;
 
     @PostMapping("/create")
-    public ResponseEntity<GlobalResponse<MusicResponse>> createMusic(@RequestBody @Valid CreateMusicRequest createMusicRequest) {
+    public ResponseEntity<GlobalResponse<MusicResponse>> createMusic(@RequestBody @Valid CreateMusicRequest createMusicRequest,
+                                                                     HttpServletRequest request) {
+
         MusicModel musicModel = MusicMapper.INSTANCE.createMusicRequestToMusicModel(createMusicRequest);
         MusicResponse musicResponse = MusicMapper.INSTANCE.musicModelToMusicResponse(musicRepository.save(musicModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(musicResponse));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(musicResponse, request.getRequestURI()));
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<GlobalResponse<MusicResponse>> getMusicById(@PathVariable Long id) {
+    public ResponseEntity<GlobalResponse<MusicResponse>> getMusicById(@PathVariable Long id,
+                                                                      HttpServletRequest request) {
         MusicModel musicModel = getMusicModelByIdUseCase.get(id);
         MusicResponse musicResponse = MusicMapper.INSTANCE.musicModelToMusicResponse(musicModel);
 
-        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(musicResponse));
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(musicResponse, request.getRequestURI()));
     }
 
 }

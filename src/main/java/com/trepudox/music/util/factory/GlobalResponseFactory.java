@@ -11,10 +11,12 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GlobalResponseFactory {
 
-    public static <T> GlobalResponse<T> build(T content) {
+    public static <T> GlobalResponse<T> build(T content, String path) {
+        String selflink = PropertiesWorkaround.retrieveSelflink().concat(path);
+
         Metadata metadata = Metadata.builder()
                 .timestamp(ZonedDateTime.now())
-                .selflink(PropertiesWorkaround.retrieveSelflink())
+                .selflink(selflink)
                 .build();
 
         return GlobalResponse.<T>builder()

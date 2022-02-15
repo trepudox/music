@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -24,19 +25,22 @@ public class GenreController {
     private final IGetGenreModelByIdUseCase getGenreModelByIdUseCase;
 
     @PostMapping("/create")
-    public ResponseEntity<GlobalResponse<GenreResponse>> createGenre(@RequestBody @Valid CreateGenreRequest createGenreRequest) {
+    public ResponseEntity<GlobalResponse<GenreResponse>> createGenre(@RequestBody @Valid CreateGenreRequest createGenreRequest,
+                                                                     HttpServletRequest request) {
+
         GenreModel genreModel = GenreMapper.INSTANCE.createGenreRequestToGenreModel(createGenreRequest);
         GenreResponse genreResponse = GenreMapper.INSTANCE.genreModelToGenreResponse(genreRepository.save(genreModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(genreResponse));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(genreResponse, request.getRequestURI()));
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<GlobalResponse<GenreResponse>> getGenreById(@PathVariable Long id) {
+    public ResponseEntity<GlobalResponse<GenreResponse>> getGenreById(@PathVariable Long id,
+                                                                      HttpServletRequest request) {
         GenreModel genreModel = getGenreModelByIdUseCase.get(id);
         GenreResponse response = GenreMapper.INSTANCE.genreModelToGenreResponse(genreModel);
 
-        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(response));
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(response, request.getRequestURI()));
     }
 
 }
