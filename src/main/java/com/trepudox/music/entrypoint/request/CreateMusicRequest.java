@@ -6,14 +6,23 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Getter;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Getter
 public class CreateMusicRequest {
 
+    @NotBlank
     private String name;
+
+    @Valid
     private ObjectId genre;
+
+    @Valid
     private ObjectId artist;
+
+    @Valid
     private ObjectId album;
 
     @JsonSerialize(using = LocalDateSerializer.class)
