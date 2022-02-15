@@ -28,7 +28,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .detail(ex.getMessage())
                 .build();
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GlobalResponseFactory.create(List.of(error)));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(GlobalResponseFactory.build(List.of(error)));
     }
 
     @ExceptionHandler(EnumMappingException.class)
@@ -38,7 +38,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .detail(ex.getMessage())
                 .build();
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalResponseFactory.create(List.of(error)));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalResponseFactory.build(List.of(error)));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                     .build());
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GlobalResponseFactory.create(errorList));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GlobalResponseFactory.build(errorList));
     }
 
 

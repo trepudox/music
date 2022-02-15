@@ -26,7 +26,7 @@ public class AlbumController {
         AlbumModel albumModel = AlbumMapper.INSTANCE.createAlbumRequestToAlbumModel(createAlbumRequest);
         AlbumResponse albumResponse = AlbumMapper.INSTANCE.albumModelToAlbumResponse(albumRepository.save(albumModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.create(albumResponse));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(albumResponse));
     }
 
 }

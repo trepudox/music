@@ -29,7 +29,7 @@ public class GenreController {
         GenreModel genreModel = GenreMapper.INSTANCE.createGenreRequestToGenreModel(createGenreRequest);
         GenreResponse response = GenreMapper.INSTANCE.genreModelToGenreResponse(genreRepository.save(genreModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.create(response));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(response));
     }
 
 }

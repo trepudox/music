@@ -28,7 +28,7 @@ public class ArtistController {
         ArtistModel artistModel = ArtistMapper.INSTANCE.createArtistToArtistModel(createArtistRequest);
         ArtistResponse response = ArtistMapper.INSTANCE.artistModelToArtistResponse(artistRepository.save(artistModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.create(response));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(response));
     }
 
     @GetMapping("/id/{id}")
@@ -36,7 +36,7 @@ public class ArtistController {
         ArtistModel artistModel = getArtistModelByIdUseCase.get(id);
         ArtistResponse response = ArtistMapper.INSTANCE.artistModelToArtistResponse(artistModel);
 
-        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.create(response));
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(response));
     }
 
 }

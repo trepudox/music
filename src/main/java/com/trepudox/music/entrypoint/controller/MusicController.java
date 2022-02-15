@@ -26,7 +26,7 @@ public class MusicController {
         MusicModel musicModel = MusicMapper.INSTANCE.createMusicRequestToMusicModel(createMusicRequest);
         MusicResponse response = MusicMapper.INSTANCE.musicModelToMusicResponse(musicRepository.save(musicModel));
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.create(response));
+        return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(response));
     }
 
 }

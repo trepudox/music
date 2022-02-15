@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GlobalResponseFactory {
 
-    public static <T> GlobalResponse<T> create(T content) {
+    public static <T> GlobalResponse<T> build(T content) {
         Metadata metadata = Metadata.builder()
                 .timestamp(ZonedDateTime.now())
                 .selflink("localhost")
