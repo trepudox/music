@@ -6,6 +6,8 @@ import com.trepudox.music.entrypoint.response.ArtistResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface ArtistMapper {
 
@@ -14,5 +16,7 @@ public interface ArtistMapper {
     ArtistModel createArtistToArtistModel(CreateArtistRequest createArtistRequest);
 
     ArtistResponse artistModelToArtistResponse(ArtistModel artistModel);
+
+    List<ArtistResponse> artistModelListToArtistResponseList(List<ArtistModel> artistModelList);
 
 }

@@ -6,6 +6,8 @@ import com.trepudox.music.entrypoint.response.AlbumResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface AlbumMapper {
 
@@ -14,5 +16,7 @@ public interface AlbumMapper {
     AlbumModel createAlbumRequestToAlbumModel(CreateAlbumRequest createAlbumRequest);
 
     AlbumResponse albumModelToAlbumResponse(AlbumModel albumModel);
+
+    List<AlbumResponse> albumModelListToAlbumResponseList(List<AlbumModel> albumModelList);
 
 }

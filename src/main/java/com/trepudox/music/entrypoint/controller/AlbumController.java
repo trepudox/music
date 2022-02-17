@@ -2,6 +2,7 @@ package com.trepudox.music.entrypoint.controller;
 
 import com.trepudox.music.core.mapper.AlbumMapper;
 import com.trepudox.music.core.usecase.IGetAlbumModelByIdUseCase;
+import com.trepudox.music.core.usecase.IGetAlbumModelListByNameUseCase;
 import com.trepudox.music.dataprovider.model.AlbumModel;
 import com.trepudox.music.dataprovider.repository.AlbumRepository;
 import com.trepudox.music.entrypoint.request.CreateAlbumRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class AlbumController {
 
     private final AlbumRepository albumRepository;
     private final IGetAlbumModelByIdUseCase getAlbumModelByIdUseCase;
+    private final IGetAlbumModelListByNameUseCase getAlbumModelListByName;
 
     @PostMapping("/create")
     public ResponseEntity<GlobalResponse<AlbumResponse>> createAlbum(@RequestBody @Valid CreateAlbumRequest createAlbumRequest,
@@ -41,6 +44,15 @@ public class AlbumController {
         AlbumResponse albumResponse = AlbumMapper.INSTANCE.albumModelToAlbumResponse(albumModel);
 
         return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(albumResponse, request.getRequestURI()));
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<GlobalResponse<List<AlbumResponse>>> getAlbumsByName(@PathVariable String name,
+                                                                                  HttpServletRequest request) {
+        List<AlbumModel> albumModelList = getAlbumModelListByName.get(name);
+        List<AlbumResponse> albumResponseList = AlbumMapper.INSTANCE.albumModelListToAlbumResponseList(albumModelList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(albumResponseList, request.getRequestURI()));
     }
 
 }
