@@ -3,6 +3,7 @@ package com.trepudox.music.entrypoint.controller;
 import com.trepudox.music.core.mapper.AlbumMapper;
 import com.trepudox.music.core.usecase.IGetAlbumModelByIdUseCase;
 import com.trepudox.music.core.usecase.IGetAlbumModelListByNameUseCase;
+import com.trepudox.music.core.usecase.IGetAllAlbumModelUseCase;
 import com.trepudox.music.dataprovider.model.AlbumModel;
 import com.trepudox.music.dataprovider.repository.AlbumRepository;
 import com.trepudox.music.entrypoint.request.CreateAlbumRequest;
@@ -21,9 +22,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/album")
+@CrossOrigin("*")
 public class AlbumController {
 
     private final AlbumRepository albumRepository;
+    private final IGetAllAlbumModelUseCase getAllAlbumModelUseCase;
     private final IGetAlbumModelByIdUseCase getAlbumModelByIdUseCase;
     private final IGetAlbumModelListByNameUseCase getAlbumModelListByName;
 
@@ -35,6 +38,14 @@ public class AlbumController {
         AlbumResponse albumResponse = AlbumMapper.INSTANCE.albumModelToAlbumResponse(albumRepository.save(albumModel));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(albumResponse, request.getRequestURI()));
+    }
+
+    @GetMapping
+    public ResponseEntity<GlobalResponse<List<AlbumResponse>>> getAllAlbums(HttpServletRequest request) {
+        List<AlbumModel> albumModelList = getAllAlbumModelUseCase.get();
+        List<AlbumResponse> albumResponseList = AlbumMapper.INSTANCE.albumModelListToAlbumResponseList(albumModelList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(albumResponseList, request.getRequestURI()));
     }
 
     @GetMapping("/id/{id}")

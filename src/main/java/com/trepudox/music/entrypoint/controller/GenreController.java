@@ -1,6 +1,7 @@
 package com.trepudox.music.entrypoint.controller;
 
 import com.trepudox.music.core.mapper.GenreMapper;
+import com.trepudox.music.core.usecase.IGetAllGenreModelUseCase;
 import com.trepudox.music.core.usecase.IGetGenreModelByIdUseCase;
 import com.trepudox.music.core.usecase.IGetGenreModelListByNameUseCase;
 import com.trepudox.music.dataprovider.model.GenreModel;
@@ -21,9 +22,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/genre")
+@CrossOrigin("*")
 public class GenreController {
 
     private final GenreRepository genreRepository;
+    private final IGetAllGenreModelUseCase getAllGenreModelUseCase;
     private final IGetGenreModelByIdUseCase getGenreModelByIdUseCase;
     private final IGetGenreModelListByNameUseCase getGenreModelListByNameUseCase;
 
@@ -35,6 +38,14 @@ public class GenreController {
         GenreResponse genreResponse = GenreMapper.INSTANCE.genreModelToGenreResponse(genreRepository.save(genreModel));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(genreResponse, request.getRequestURI()));
+    }
+
+    @GetMapping
+    public ResponseEntity<GlobalResponse<List<GenreResponse>>> getAllGenres(HttpServletRequest request) {
+        List<GenreModel> genreModelList = getAllGenreModelUseCase.get();
+        List<GenreResponse> genreResponseList = GenreMapper.INSTANCE.genreModelListToGenreResponseList(genreModelList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(genreResponseList, request.getRequestURI()));
     }
 
     @GetMapping("/id/{id}")
