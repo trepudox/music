@@ -8,7 +8,7 @@ spring:
   profiles: local
   jpa:
     database-platform: org.hibernate.dialect.Oracle12cDialect
-    show-sql: true
+    show-sql: false
     hibernate:
       format_sql: true
       ddl-auto: update
