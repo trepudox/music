@@ -1,6 +1,7 @@
 package com.trepudox.music.entrypoint.controller;
 
 import com.trepudox.music.core.mapper.ArtistMapper;
+import com.trepudox.music.core.usecase.IGetAllArtistModelUseCase;
 import com.trepudox.music.core.usecase.IGetArtistModelByIdUseCase;
 import com.trepudox.music.core.usecase.IGetArtistModelListByNameUseCase;
 import com.trepudox.music.dataprovider.model.ArtistModel;
@@ -21,9 +22,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/artist")
+@CrossOrigin("*")
 public class ArtistController {
 
     private final ArtistRepository artistRepository;
+    private final IGetAllArtistModelUseCase getAllArtistModelUseCase;
     private final IGetArtistModelByIdUseCase getArtistModelByIdUseCase;
     private final IGetArtistModelListByNameUseCase getArtistModelListByNameUseCase;
 
@@ -35,6 +38,14 @@ public class ArtistController {
         ArtistResponse artistResponse = ArtistMapper.INSTANCE.artistModelToArtistResponse(artistRepository.save(artistModel));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(artistResponse, request.getRequestURI()));
+    }
+
+    @GetMapping
+    public ResponseEntity<GlobalResponse<List<ArtistResponse>>> getAllArtists(HttpServletRequest request) {
+        List<ArtistModel> artistModelList = getAllArtistModelUseCase.get();
+        List<ArtistResponse> artistResponseList = ArtistMapper.INSTANCE.artistModelListToArtistResponseList(artistModelList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(artistResponseList, request.getRequestURI()));
     }
 
     @GetMapping("/id/{id}")

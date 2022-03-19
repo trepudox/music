@@ -1,6 +1,7 @@
 package com.trepudox.music.entrypoint.controller;
 
 import com.trepudox.music.core.mapper.MusicMapper;
+import com.trepudox.music.core.usecase.IGetAllMusicModelUseCase;
 import com.trepudox.music.core.usecase.IGetMusicModelByIdUseCase;
 import com.trepudox.music.core.usecase.IGetMusicModelListByNameUseCase;
 import com.trepudox.music.dataprovider.model.MusicModel;
@@ -21,9 +22,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/music")
+@CrossOrigin("*")
 public class MusicController {
 
     private final MusicRepository musicRepository;
+    private final IGetAllMusicModelUseCase getAllMusicModelUseCase;
     private final IGetMusicModelByIdUseCase getMusicModelByIdUseCase;
     private final IGetMusicModelListByNameUseCase getMusicModelListByNameUseCase;
 
@@ -35,6 +38,14 @@ public class MusicController {
         MusicResponse musicResponse = MusicMapper.INSTANCE.musicModelToMusicResponse(musicRepository.save(musicModel));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(GlobalResponseFactory.build(musicResponse, request.getRequestURI()));
+    }
+
+    @GetMapping
+    public ResponseEntity<GlobalResponse<List<MusicResponse>>> getAllMusic(HttpServletRequest request) {
+        List<MusicModel> musicModelList = getAllMusicModelUseCase.get();
+        List<MusicResponse> musicResponseList = MusicMapper.INSTANCE.musicModelListToMusicResponseList(musicModelList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(GlobalResponseFactory.build(musicResponseList, request.getRequestURI()));
     }
 
     @GetMapping("/id/{id}")
