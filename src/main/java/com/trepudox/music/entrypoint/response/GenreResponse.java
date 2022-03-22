@@ -17,5 +17,6 @@ public class GenreResponse {
     private String name;
     private String description;
     private List<MusicResponse> tracks;
+    private List<AlbumResponse> albums;
 
 }

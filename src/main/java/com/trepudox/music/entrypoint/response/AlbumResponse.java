@@ -17,6 +17,7 @@ public class AlbumResponse {
     private Long id;
     private String name;
     private ArtistResponse artist;
+    private GenreResponse genre;
     private List<MusicResponse> tracks;
     private LocalDate releaseDate;
 
