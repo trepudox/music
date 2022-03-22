@@ -1,5 +1,6 @@
 package com.trepudox.music.dataprovider.model;
 
+import com.trepudox.music.entity.Genre;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -29,6 +30,9 @@ public class AlbumModel {
 
     @ManyToOne(targetEntity = ArtistModel.class, optional = false)
     private ArtistModel artist;
+
+    @ManyToOne(targetEntity = GenreModel.class, optional = false)
+    private Genre genre;
 
     @OneToMany(targetEntity = MusicModel.class, cascade = CascadeType.ALL, mappedBy = "album")
     private List<MusicModel> tracks;
