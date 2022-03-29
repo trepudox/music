@@ -26,13 +26,16 @@ public class MusicModel {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(targetEntity = GenreModel.class, optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id")
     private GenreModel genre;
 
-    @ManyToOne(targetEntity = ArtistModel.class, optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "artist_id")
     private ArtistModel artist;
 
-    @ManyToOne(targetEntity = AlbumModel.class)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "album_id")
     private AlbumModel album;
 
     @Column(nullable = false)

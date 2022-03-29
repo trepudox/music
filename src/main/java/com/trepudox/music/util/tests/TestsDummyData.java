@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TestsDummyData {
@@ -21,7 +20,6 @@ public class TestsDummyData {
         return ArtistModel.builder()
                 .id(faker.number().randomNumber())
                 .name(faker.name().name())
-                .albums(List.of())
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
                 .build();

@@ -29,12 +29,6 @@ public class GenreModel {
     @Column(nullable = false)
     private String description;
 
-    @OneToMany(mappedBy = "genre", targetEntity = MusicModel.class, cascade = CascadeType.ALL)
-    private List<MusicModel> tracks;
-
-    @OneToMany(mappedBy = "genre", targetEntity = AlbumModel.class, cascade = CascadeType.ALL)
-    private List<AlbumModel> albums;
-
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 

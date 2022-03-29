@@ -20,6 +20,9 @@ public class CreateAlbumRequest {
     @Valid
     private ObjectId artist;
 
+    @Valid
+    private ObjectId genre;
+
     @NotNull
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)

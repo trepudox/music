@@ -1,5 +1,6 @@
 package com.trepudox.music.dataprovider.model;
 
+import com.trepudox.music.entity.Music;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,9 +26,6 @@ public class ArtistModel {
 
     @Column(nullable = false)
     private String name;
-
-    @OneToMany(targetEntity = AlbumModel.class, cascade = CascadeType.ALL, mappedBy = "artist")
-    private List<AlbumModel> albums;
 
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
